@@ -25,16 +25,16 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-role-to-assume: arn:aws:iam::481613237379:role/ecr-access-role
+          role-to-assume: arn:aws:iam::481613237379:role/ecr-access-role
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          ECR_REGISTRY: 481613237379.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
           IMAGE_TAG: latest
         run: |
-          docker build --build-arg prod=true --build-arg NEXT_PUBLIC_HELLO_WORLD="${{ secrets.NEXT_PUBLIC_HELLO_WORLD }}" --build-arg SOME_OTHER_VARIABLE="${{ secrets.SOME_OTHER_VARIABLE }}" -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --build-arg prod=true --build-arg --build-arg SOME_OTHER_VARIABLE="${{ secrets.SOME_OTHER_VARIABLE }}" -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
