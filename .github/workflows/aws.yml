@@ -2,7 +2,7 @@ on:
   push:
     branches: [development, master]
 
-name: Deploy Demo App on ECS
+name: Deploy auth-service App on ECS
 
 permissions:
   id-token: write 
